@@ -3,18 +3,28 @@ package day1
 import getResourceAsStream
 import readAsOneLine
 
-data class Elf(val totalCalories: Int) {
+class Elf private constructor(val totalCalories: Int) {
 
     companion object {
         fun makeElf(input: String): Elf {
             return Elf(input.split("\r\n").sumOf { it.toInt() })
         }
     }
+
+    override fun toString(): String {
+        return "Elf(totalCalories=$totalCalories"
+    }
 }
 
 
+/**
+ * find the elf with the highest total calories
+ */
 fun part1(input: List<Elf>) = input.maxBy { it.totalCalories }
 
+/**
+ * find the 3 elfs with the highest total calories
+ */
 fun part2(input: List<Elf>) = input.sortedByDescending { it.totalCalories }.take(3).sumOf { it.totalCalories }
 
 

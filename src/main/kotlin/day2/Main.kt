@@ -4,10 +4,18 @@ import getResourceAsStream
 import readAsOneLine
 
 enum class ThrowType(val throwValue: Int) {
-    Rock(1),
-    Paper(2),
-    Scissors(3);
+    Rock(1),        // X
+    Paper(2),       // Y
+    Scissors(3);    // Z
 
+    /**
+     * determine required result based on the throw dictated by the strategy guide
+     * X -> loss
+     * Y -> draw
+     * Z -> win
+     *
+     * for ease of use, we reuse the ThrowType enum
+     */
     fun toOutcomePart2(): Outcome {
         return when (this) {
             Rock -> Outcome.Loss
@@ -16,28 +24,55 @@ enum class ThrowType(val throwValue: Int) {
         }
     }
 
+}
+
+enum class Outcome(val points: Int) {
+    Loss(0), Draw(3), Win(6);
+
+
     companion object {
+        fun determineOutcome(thro: Throw): Outcome {
+            return when (thro.yourThrow) {
+                ThrowType.Rock -> when (thro.myThrow) {
+                    ThrowType.Rock -> Draw
+                    ThrowType.Paper -> Win
+                    ThrowType.Scissors -> Loss
+                }
+
+                ThrowType.Paper -> when (thro.myThrow) {
+                    ThrowType.Rock -> Loss
+                    ThrowType.Paper -> Draw
+                    ThrowType.Scissors -> Win
+                }
+
+                ThrowType.Scissors -> when (thro.myThrow) {
+                    ThrowType.Rock -> Win
+                    ThrowType.Paper -> Loss
+                    ThrowType.Scissors -> Draw
+                }
+            }
+        }
 
         fun determineRequiredResult(thro: Throw): Int {
             return with(thro) {
                 val desiredOutcome = myThrow.toOutcomePart2()
                 val myActualThrow = when (yourThrow) {
-                    Rock -> when (desiredOutcome) {
-                        Outcome.Loss -> Scissors
-                        Outcome.Draw -> Rock
-                        Outcome.Win -> Paper
+                    ThrowType.Rock -> when (desiredOutcome) {
+                        Loss -> ThrowType.Scissors
+                        Draw -> ThrowType.Rock
+                        Win -> ThrowType.Paper
                     }
 
-                    Paper -> when (desiredOutcome) {
-                        Outcome.Loss -> Rock
-                        Outcome.Draw -> Paper
-                        Outcome.Win -> Scissors
+                    ThrowType.Paper -> when (desiredOutcome) {
+                        Loss -> ThrowType.Rock
+                        Draw -> ThrowType.Paper
+                        Win -> ThrowType.Scissors
                     }
 
-                    Scissors -> when (desiredOutcome) {
-                        Outcome.Loss -> Paper
-                        Outcome.Draw -> Scissors
-                        Outcome.Win -> Rock
+                    ThrowType.Scissors -> when (desiredOutcome) {
+                        Loss -> ThrowType.Paper
+                        Draw -> ThrowType.Scissors
+                        Win -> ThrowType.Rock
                     }
                 }
                 myActualThrow.throwValue + desiredOutcome.points
@@ -46,38 +81,9 @@ enum class ThrowType(val throwValue: Int) {
     }
 }
 
-enum class Outcome(val points: Int) {
-    Loss(0), Draw(3), Win(6);
-
-
-    companion object {
-        fun determineOutcome(yourThrow: ThrowType, myThrow: ThrowType): Outcome {
-            return when (yourThrow) {
-                ThrowType.Rock -> when (myThrow) {
-                    ThrowType.Rock -> Draw
-                    ThrowType.Paper -> Win
-                    ThrowType.Scissors -> Loss
-                }
-
-                ThrowType.Paper -> when (myThrow) {
-                    ThrowType.Rock -> Loss
-                    ThrowType.Paper -> Draw
-                    ThrowType.Scissors -> Win
-                }
-
-                ThrowType.Scissors -> when (myThrow) {
-                    ThrowType.Rock -> Win
-                    ThrowType.Paper -> Loss
-                    ThrowType.Scissors -> Draw
-                }
-            }
-        }
-    }
-}
-
 class Throw private constructor(val yourThrow: ThrowType, val myThrow: ThrowType) {
 
-    val outcome: Outcome = Outcome.determineOutcome(yourThrow, myThrow)
+    val outcome: Outcome = Outcome.determineOutcome(this)
 
     companion object {
         fun makeThrow(input: String): Throw {
@@ -104,9 +110,15 @@ class Throw private constructor(val yourThrow: ThrowType, val myThrow: ThrowType
     }
 }
 
+/**
+ * determine result of throw (outcome + value of throw)
+ */
 fun part1(throws: List<Throw>) = throws.sumOf { it.outcome.points + it.myThrow.throwValue }
 
-fun part2(throws: List<Throw>) = throws.sumOf { ThrowType.determineRequiredResult(it) }
+/**
+ * determine result of throw (manipulated outcome + value of throw)
+ */
+fun part2(throws: List<Throw>) = throws.sumOf { Outcome.determineRequiredResult(it) }
 
 fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
     val input = getResourceAsStream("day2/input.txt").readAsOneLine()
