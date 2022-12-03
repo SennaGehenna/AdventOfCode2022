@@ -75,7 +75,9 @@ enum class Outcome(val points: Int) {
     }
 }
 
-data class Throw(val yourThrow: ThrowType, val myThrow: ThrowType, val outcome: Outcome) {
+class Throw private constructor(val yourThrow: ThrowType, val myThrow: ThrowType) {
+
+    val outcome: Outcome = Outcome.determineOutcome(yourThrow, myThrow)
 
     companion object {
         fun makeThrow(input: String): Throw {
@@ -93,8 +95,12 @@ data class Throw(val yourThrow: ThrowType, val myThrow: ThrowType, val outcome: 
                 else -> throw IllegalArgumentException("Found illegal input argument for 'myThrow' = \"$me\"")
             }
 
-            return Throw(yourThrow, myThrow, Outcome.determineOutcome(yourThrow, myThrow))
+            return Throw(yourThrow, myThrow)
         }
+    }
+
+    override fun toString(): String {
+        return "Throw(yourThrow=$yourThrow,myThrow=$myThrow,outcome=$outcome)"
     }
 }
 
