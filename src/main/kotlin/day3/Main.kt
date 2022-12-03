@@ -3,10 +3,10 @@ package day3
 import getResourceAsStream
 import readAsOneLine
 
-data class Item(val allContents: String) {
+data class Rucksack(val allContents: String) {
 
-    val firstItem = allContents.substring(startIndex = 0, endIndex = allContents.length / 2)
-    val secondItem = allContents.substring(startIndex = allContents.length / 2, endIndex = allContents.length)
+    val leftCompartment = allContents.substring(startIndex = 0, endIndex = allContents.length / 2)
+    val rightCompartment = allContents.substring(startIndex = allContents.length / 2, endIndex = allContents.length)
 
 }
 
@@ -21,10 +21,13 @@ fun getItemValue(item: Char): Int {
     }
 }
 
-fun part1(items: List<Item>): Any {
+/**
+Day 1: find the item present in both compartments of a rucksack and return that items value
+ */
+fun part1(rucksacks: List<Rucksack>): Any {
 
-    val res = items.mapNotNull { pair ->
-        pair.firstItem.find { pair.secondItem.contains(it) }
+    val res = rucksacks.mapNotNull { rucksack ->
+        rucksack.leftCompartment.find { rucksack.rightCompartment.contains(it) }
     }.sumOf {
         getItemValue(it)
     }
@@ -32,11 +35,13 @@ fun part1(items: List<Item>): Any {
     return res
 }
 
-
-fun part2(items: List<Item>): Any {
-    val res = items.windowed(size = 3, step = 3) { item ->
-        item[0].allContents.find {
-            item[1].allContents.contains(it) && item[2].allContents.contains(it)
+/**
+ * group the rucksacks into groups of 3, find the item present in all 3 rucksacks and return that items value
+ */
+fun part2(rucksacks: List<Rucksack>): Any {
+    val res = rucksacks.windowed(size = 3, step = 3) { rucksack ->
+        rucksack[0].allContents.find {
+            rucksack[1].allContents.contains(it) && rucksack[2].allContents.contains(it)
         }
     }.filterNotNull().sumOf {
         getItemValue(it)
@@ -47,15 +52,15 @@ fun part2(items: List<Item>): Any {
 
 fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
     val input = getResourceAsStream("day3/input.txt").readAsOneLine()
-    val items = input.split("\r\n").map {
-        Item(it)
+    val rucksacks = input.split("\r\n").map {
+        Rucksack(it)
     }
 
     println(
         """
 
-       Solution for Part 1: ${part1(items)}
-       Solution for Part 2: ${part2(items)}
+       Solution for Part 1: ${part1(rucksacks)}
+       Solution for Part 2: ${part2(rucksacks)}
 
     """.trimIndent()
     )
