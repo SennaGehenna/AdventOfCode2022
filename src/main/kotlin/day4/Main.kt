@@ -1,6 +1,7 @@
 package day4
 
 import getResourceAsStream
+import printSolution
 import readAsOneLine
 
 private typealias Section = IntRange
@@ -53,14 +54,9 @@ fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
     }
 
 
-    println(
-        """
-
-
-       Solution for Part 1: ${part1(sectionPairs)}
-       Solution for Part 2: ${part2(sectionPairs)}
-
-    """.trimIndent()
+    printSolution(
+        part1(sectionPairs),
+        part2(sectionPairs)
     )
 }
 
