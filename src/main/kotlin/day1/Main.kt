@@ -1,9 +1,10 @@
 package day1
 
 import getResourceAsStream
+import printSolution
 import readAsOneLine
 
-class Elf private constructor(val totalCalories: Int) {
+private class Elf private constructor(val totalCalories: Int) {
 
     companion object {
         fun makeElf(input: String): Elf {
@@ -20,12 +21,12 @@ class Elf private constructor(val totalCalories: Int) {
 /**
  * find the elf with the highest total calories
  */
-fun part1(input: List<Elf>) = input.maxBy { it.totalCalories }
+private fun part1(input: List<Elf>) = input.maxBy { it.totalCalories }
 
 /**
  * find the 3 elfs with the highest total calories
  */
-fun part2(input: List<Elf>) = input.sortedByDescending { it.totalCalories }.take(3).sumOf { it.totalCalories }
+private fun part2(input: List<Elf>) = input.sortedByDescending { it.totalCalories }.take(3).sumOf { it.totalCalories }
 
 
 fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
@@ -36,12 +37,8 @@ fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
         .map { Elf.makeElf(it) }
 
 
-    println(
-        """
-
-       Solution for Part 1: ${part1(elves).totalCalories}
-       Solution for Part 2: ${part2(elves)}
-
-    """.trimIndent()
+    printSolution(
+        part1(elves).totalCalories,
+        part2(elves)
     )
 }

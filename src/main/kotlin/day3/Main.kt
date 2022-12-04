@@ -1,9 +1,10 @@
 package day3
 
 import getResourceAsStream
+import printSolution
 import readAsOneLine
 
-data class Rucksack(val allContents: String) {
+private data class Rucksack(val allContents: String) {
 
     val leftCompartment = allContents.substring(startIndex = 0, endIndex = allContents.length / 2)
     val rightCompartment = allContents.substring(startIndex = allContents.length / 2, endIndex = allContents.length)
@@ -13,7 +14,7 @@ data class Rucksack(val allContents: String) {
 /**
  * turn characters 'a'..'z' into 1..26 and 'A'..'Z' into 27..52
  */
-fun getItemValue(item: Char): Int {
+private fun getItemValue(item: Char): Int {
     return if (item.isLowerCase()) {
         item.code - 96 //'a' is code 97
     } else {
@@ -24,7 +25,7 @@ fun getItemValue(item: Char): Int {
 /**
 Day 1: find the item present in both compartments of a rucksack and return that items value
  */
-fun part1(rucksacks: List<Rucksack>): Any {
+private fun part1(rucksacks: List<Rucksack>): Any {
 
     val res = rucksacks.mapNotNull { rucksack ->
         rucksack.leftCompartment.find { rucksack.rightCompartment.contains(it) }
@@ -38,7 +39,7 @@ fun part1(rucksacks: List<Rucksack>): Any {
 /**
  * group the rucksacks into groups of 3, find the item present in all 3 rucksacks and return that items value
  */
-fun part2(rucksacks: List<Rucksack>): Any {
+private fun part2(rucksacks: List<Rucksack>): Any {
     val res = rucksacks.windowed(size = 3, step = 3) { rucksack ->
         rucksack[0].allContents.find {
             rucksack[1].allContents.contains(it) && rucksack[2].allContents.contains(it)
@@ -56,12 +57,8 @@ fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
         Rucksack(it)
     }
 
-    println(
-        """
-
-       Solution for Part 1: ${part1(rucksacks)}
-       Solution for Part 2: ${part2(rucksacks)}
-
-    """.trimIndent()
+    printSolution(
+        part1(rucksacks),
+        part2(rucksacks)
     )
 }

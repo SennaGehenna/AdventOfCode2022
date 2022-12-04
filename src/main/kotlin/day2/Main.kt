@@ -1,9 +1,10 @@
 package day2
 
 import getResourceAsStream
+import printSolution
 import readAsOneLine
 
-enum class ThrowType(val throwValue: Int) {
+private enum class ThrowType(val throwValue: Int) {
     Rock(1),        // X
     Paper(2),       // Y
     Scissors(3);    // Z
@@ -26,7 +27,7 @@ enum class ThrowType(val throwValue: Int) {
 
 }
 
-enum class Outcome(val points: Int) {
+private enum class Outcome(val points: Int) {
     Loss(0), Draw(3), Win(6);
 
 
@@ -81,7 +82,7 @@ enum class Outcome(val points: Int) {
     }
 }
 
-class Throw private constructor(val yourThrow: ThrowType, val myThrow: ThrowType) {
+private class Throw private constructor(val yourThrow: ThrowType, val myThrow: ThrowType) {
 
     val outcome: Outcome = Outcome.determineOutcome(this)
 
@@ -113,12 +114,12 @@ class Throw private constructor(val yourThrow: ThrowType, val myThrow: ThrowType
 /**
  * determine result of throw (outcome + value of throw)
  */
-fun part1(throws: List<Throw>) = throws.sumOf { it.outcome.points + it.myThrow.throwValue }
+private fun part1(throws: List<Throw>) = throws.sumOf { it.outcome.points + it.myThrow.throwValue }
 
 /**
  * determine result of throw (manipulated outcome + value of throw)
  */
-fun part2(throws: List<Throw>) = throws.sumOf { Outcome.determineRequiredResult(it) }
+private fun part2(throws: List<Throw>) = throws.sumOf { Outcome.determineRequiredResult(it) }
 
 fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
     val input = getResourceAsStream("day2/input.txt").readAsOneLine()
@@ -128,12 +129,8 @@ fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
 
 
 
-    println(
-        """
-
-       Solution for Part 1: ${part1(throws)}
-       Solution for Part 2: ${part2(throws)}
-
-    """.trimIndent()
+    printSolution(
+        part1(throws),
+        part2(throws)
     )
 }
