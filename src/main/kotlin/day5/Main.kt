@@ -1,6 +1,7 @@
 package day5
 
 import getResourceAsStream
+import printSolution
 import readAsOneLine
 import java.util.*
 
@@ -100,13 +101,7 @@ fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
         Command.makeCommand(it)
     }
 
-    println(
-        """
-
-       Solution for Part 1: ${part1(stackString, commands)}
-       Solution for Part 2: ${part2(stackString, commands)}
-
-    """.trimIndent()
-    )
+    printSolution(part1(stackString, commands),
+            part2(stackString, commands))
 }
 

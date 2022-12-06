@@ -1,6 +1,7 @@
 package day4
 
 import getResourceAsStream
+import printSolution
 
 import readAsOneLine
 
@@ -53,18 +54,9 @@ fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
         SectionPair.makeSectionPair(it)
     }
 
-    println(
-        """
-
-       Solution for Part 1: ${part1(sectionPairs)}
-       Solution for Part 2: ${part2(sectionPairs)}
-
-    """.trimIndent()
+    printSolution(
+        part1(sectionPairs),
+        part2(sectionPairs)
     )
-
-//    printSolution(
-//        part1(sectionPairs),
-//        part2(sectionPairs)
-//    )
 }
 
