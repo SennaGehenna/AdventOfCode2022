@@ -93,11 +93,11 @@ fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
     val input = getResourceAsStream("day5/input.txt").readAsOneLine()
 
     val doubleNewLine = "\r\n\r\n"
-    val stackString = input.substring(0, input.indexOf(doubleNewLine)).split("\r\n").asReversed()
+    val stackString = input.substring(0, input.indexOf(doubleNewLine)).lines().asReversed()
     val commandsString = input.substring(input.indexOf("move"))
 
 
-    val commands = commandsString.split("\r\n").map {
+    val commands = commandsString.lines().map {
         Command.makeCommand(it)
     }
 

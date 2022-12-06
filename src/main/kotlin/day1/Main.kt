@@ -32,7 +32,7 @@ private fun part2(input: List<Elf>) = input.sortedByDescending { it.totalCalorie
 fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
     val elves = getResourceAsStream("day1/input.txt")
         .readAsOneLine()
-        .split("\r\n\r\n")
+        .lines()
         .filterNot { it.isEmpty() }
         .map { Elf.makeElf(it) }
 

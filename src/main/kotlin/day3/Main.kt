@@ -53,7 +53,7 @@ private fun part2(rucksacks: List<Rucksack>): Any {
 
 fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
     val input = getResourceAsStream("day3/input.txt").readAsOneLine()
-    val rucksacks = input.split("\r\n").map {
+    val rucksacks = input.lines().map {
         Rucksack(it)
     }
 

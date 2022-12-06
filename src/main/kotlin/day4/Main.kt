@@ -50,7 +50,7 @@ private fun part2(input: List<SectionPair>): Any {
 
 fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
     val input = getResourceAsStream("day4/input.txt").readAsOneLine()
-    val sectionPairs = input.split("\r\n").map {
+    val sectionPairs = input.lines().map {
         SectionPair.makeSectionPair(it)
     }
 

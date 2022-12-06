@@ -123,7 +123,7 @@ private fun part2(throws: List<Throw>) = throws.sumOf { Outcome.determineRequire
 
 fun main(@Suppress("UNUSED_PARAMETER") args: Array<String>) {
     val input = getResourceAsStream("day2/input.txt").readAsOneLine()
-    val throws = input.split("\r\n").map {
+    val throws = input.lines().map {
         Throw.makeThrow(it)
     }
 
